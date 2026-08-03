@@ -1,5 +1,5 @@
 :root {
-  --color-brand--1: #ffb545;
+  --color-brand--1: #5762ffc0;
   --color-brand--2: #00c46a;
 
   --color-dark--1: #2d3439;
@@ -125,7 +125,9 @@ a:visited {
 
   /* Match height and activity boxes */
   height: 9.25rem;
-  transition: all 0.5s, transform 1ms;
+  transition:
+    all 0.5s,
+    transform 1ms;
 }
 
 .form.hidden {
