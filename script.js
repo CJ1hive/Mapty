@@ -46,9 +46,9 @@ class cycling extends workout {
   }
 }
 
-const run = new running([30, -29], 5.2, 24, 178);
-const cycl = new cycling([30, -29], 26, 96, 378);
-console.log(run, cycl);
+// const run = new running([30, -29], 5.2, 24, 178);
+// const cycl = new cycling([30, -29], 26, 96, 378);
+// console.log(run, cycl);
 
 let map, mapEvent;
 class App {
