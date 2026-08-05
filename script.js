@@ -1,19 +1,19 @@
-'use strict';
+"use strict";
 
 // prettier-ignore
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-const form = document.querySelector('.form');
-const containerWorkouts = document.querySelector('.workouts');
-const inputType = document.querySelector('.form__input--type');
-const inputDistance = document.querySelector('.form__input--distance');
-const inputDuration = document.querySelector('.form__input--duration');
-const inputCadence = document.querySelector('.form__input--cadence');
-const inputElevation = document.querySelector('.form__input--elevation');
+const form = document.querySelector(".form");
+const containerWorkouts = document.querySelector(".workouts");
+const inputType = document.querySelector(".form__input--type");
+const inputDistance = document.querySelector(".form__input--distance");
+const inputDuration = document.querySelector(".form__input--duration");
+const inputCadence = document.querySelector(".form__input--cadence");
+const inputElevation = document.querySelector(".form__input--elevation");
 
 class workout {
   date = new Date();
-  id = (Date.now() + '').slice(-10);
+  id = (Date.now() + "").slice(-10);
   constructor(coords, distance, duration) {
     this.coords = coords;
     this.distance = distance;
@@ -46,6 +46,9 @@ class cycling extends workout {
   }
 }
 
+const run = new running([30, -29], 5.2, 24, 178);
+const cycl = new cycling([30, -29], 26, 96, 378);
+console.log(run, cycl);
 // const run = new running([30, -29], 5.2, 24, 178);
 // const cycl = new cycling([30, -29], 26, 96, 378);
 // console.log(run, cycl);
@@ -57,8 +60,8 @@ class App {
 
   constructor() {
     this._getPostion();
-    form.addEventListener('submit', this._newWokout.bind(this));
-    inputType.addEventListener('change', this._toggelElevtionFeild);
+    form.addEventListener("submit", this._newWokout.bind(this));
+    inputType.addEventListener("change", this._toggelElevtionFeild);
   }
   _getPostion() {
     if (navigator.geolocation)
@@ -75,14 +78,14 @@ class App {
     const { longitude } = postion.coords;
     console.log(`https://www.google.com/maps/@${latitude},${longitude}`);
     const coords = [latitude, longitude];
-    this.#map = L.map('map').setView(coords, 13);
+    this.#map = L.map("map").setView(coords, 13);
 
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(this.#map);
 
-    this.#map.on('click', this._showForm.bind(this));
+    this.#map.on("click", this._showForm.bind(this));
   }
   _showForm(mapE) {
     this.#mapEvent = mapE;
@@ -90,32 +93,16 @@ class App {
     inputDistance.focus();
   }
   _toggelElevtionFeild() {
-    inputElevation.closest(`.form__row`).classList.toggle('form__row--hidden');
-    inputCadence.closest(`.form__row`).classList.toggle('form__row--hidden');
+    inputElevation.closest(`.form__row`).classList.toggle("form__row--hidden");
+    inputCadence.closest(`.form__row`).classList.toggle("form__row--hidden");
   }
   _newWokout(e) {
-    const type = inputType.value;
-    const distance = +inputDistance.value;
-    const duration = +inputDuration.value;
-    const { lat, lng } = this.#mapEvent.latlng;
-    let workout;
-
-    // If workout running, create running object
-    if (type === 'running') {
-      const cadence = +inputCadence.value;
-
-      // Check if data is valid
-      if (
-        // !Number.isFinite(distance) ||
-        // !Number.isFinite(duration) ||
-        // !Number.isFinite(cadence)
-        !validInputs(distance, duration, cadence) ||
-        !allPositive(distance, duration, cadence)
-      )
-        return alert('Inputs have to be positive numbers!');
-
-      workout = new Running([lat, lng], distance, duration, cadence);
-    }
+    e.preventDefault();
+    inputDistance.value =
+      inputDuration.value =
+      inputCadence.value =
+      inputElevation.value =
+        "";
     const { lat, lng } = this.#mapEvent.latlng;
     L.marker([lat, lng])
       .addTo(this.#map)
@@ -125,10 +112,10 @@ class App {
           minWidth: 100,
           autoClose: false,
           closeOnClick: false,
-          className: 'running-popup',
+          className: "running-popup",
         }),
       )
-      .setPopupContent('Workout')
+      .setPopupContent("Workout")
       .openPopup();
   }
 }
