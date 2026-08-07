@@ -63,11 +63,13 @@ const inputElevation = document.querySelector(".form__input--elevation");
 class App {
   #map;
   #mapEvent;
+  #mapZoomLvl = 15;
   #workout = [];
   constructor() {
     this._getPostion();
     form.addEventListener("submit", this._newWokout.bind(this));
     inputType.addEventListener("change", this._toggelElevtionFeild);
+    containerWorkouts.addEventListener("click", this._moveToPup.bind(this));
   }
   _getPostion() {
     if (navigator.geolocation)
@@ -84,7 +86,7 @@ class App {
     const { longitude } = postion.coords;
     console.log(`https://www.google.com/maps/@${latitude},${longitude}`);
     const coords = [latitude, longitude];
-    this.#map = L.map("map").setView(coords, 13);
+    this.#map = L.map("map").setView(coords, this.#mapZoomLvl);
 
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution:
@@ -203,6 +205,19 @@ class App {
           </div>
         </li>`;
     form.insertAdjacentHTML("afterend", html);
+  }
+  _moveToPup(e) {
+    const workoutEl = e.target.closest(".workout");
+    if (!workoutEl) return;
+    const workout = this.#workout.find(
+      (work) => work.id === workoutEl.dataset.id,
+    );
+    this.#map.setView(workout.coords, this.#mapZoomLvl, {
+      Animation: true,
+      pan: {
+        duration: 1,
+      },
+    });
   }
 }
 const app = new App();
